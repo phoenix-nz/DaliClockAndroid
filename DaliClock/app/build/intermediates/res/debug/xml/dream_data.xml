@@ -1,2 +1,0 @@
-<dream xmlns:android="http://schemas.android.com/apk/res/android"
-    android:settingsActivity="org.jwz.daliclock/.DaliClockSettingsActivity" /><!-- From: file:/home/robin/development/xdaliclock-2.42/android/DaliClock/app/src/main/res/xml/dream_data.xml -->
