@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="target_frame_rate"
+        android:title="@string/pref_frame_rate_title"
+        android:defaultValue="10"
+        android:numeric="integer"
+        android:inputType="number"/>
+
+    <CheckBoxPreference
+        android:key="color_cycle"
+        android:title="@string/pref_color_cycle_title"
+        android:defaultValue="false" />
+
+    <EditTextPreference
+        android:dependency="color_cycle"
+        android:key="color_cycle_speed"
+        android:title="@string/pref_color_cycle_speed_title"
+        android:defaultValue="12"
+        android:numeric="integer"
+        android:inputType="number"/>
+
+    <!--<ListPreference-->
+        <!--android:key="orientation"-->
+        <!--android:title="@string/pref_orientation_title"-->
+        <!--android:defaultValue="auto"-->
+        <!--android:entries="@array/pref_orientation_titles"-->
+        <!--android:entryValues="@array/pref_orientation_values"-->
+        <!--android:negativeButtonText="@null"-->
+        <!--android:positiveButtonText="@null" />-->
+
+    <CheckBoxPreference
+        android:key="aaliasing"
+        android:title="@string/pref_aaliasing_title"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

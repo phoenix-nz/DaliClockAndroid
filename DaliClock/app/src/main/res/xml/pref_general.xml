@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="date_display"
+        android:title="@string/pref_date_display_title"
+        android:defaultValue="1"
+        android:entries="@array/pref_date_display_titles"
+        android:entryValues="@array/pref_date_display_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:key="time_display"
+        android:title="@string/pref_time_display_title"
+        android:defaultValue="0"
+        android:entries="@array/pref_time_display_titles"
+        android:entryValues="@array/pref_time_display_values"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <CheckBoxPreference
+        android:key="time_12h"
+        android:title="@string/pref_time_24h_title"
+        android:summary="@string/pref_time_24h_description"
+        android:defaultValue="false" />
+
+
+</PreferenceScreen>

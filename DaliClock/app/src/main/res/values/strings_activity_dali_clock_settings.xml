@@ -1,0 +1,56 @@
+<resources>
+    <string name="title_activity_dali_clock_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_date_display_title">Date display</string>
+
+    <string-array name="pref_date_display_titles">
+        <item>Day/Month/Year</item>
+        <item>Month/Day/Year</item>
+        <item>Year/Month/Day</item>
+    </string-array>
+    <string-array name="pref_date_display_values">
+        <item>DDMMYY</item>
+        <item>MMDDYY</item>
+        <item>YYMMDD</item>
+    </string-array>
+    <string name="pref_time_display_title">Time display</string>
+    <string-array name="pref_time_display_titles">
+        <item>Hour, Min &amp; Sec</item>
+        <item>Hour &amp; Min</item>
+        <item>Seconds only</item>
+    </string-array>
+    <string-array name="pref_time_display_values">
+        <item>HHMMSS</item>
+        <item>HHMM</item>
+        <item>SS</item>
+    </string-array>
+
+    <string name="pref_time_24h_title">12 hour time</string>
+    <string name="pref_time_24h_description">Show time in 24 hour or am/pm format</string>
+
+
+    <string name="pref_header_advanced">Advanced</string>
+
+    <string name="pref_frame_rate_title">Target frame rate (fps)</string>
+
+    <string name="pref_color_cycle_title">Colour cycle</string>
+    <string name="pref_color_cycle_speed_title">Colour cycle speed (fps)</string>
+
+    <string name="pref_orientation_title">Orientation</string>
+    <string-array name="pref_orientation_titles">
+        <item>Auto</item>
+        <item>Horizontal</item>
+        <item>Vertical</item>
+    </string-array>
+    <string-array name="pref_orientation_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string name="pref_aaliasing_title">Anti-aliasing</string>
+</resources>
