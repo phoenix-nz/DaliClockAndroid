@@ -1,14 +1,16 @@
-
 package org.jwz.daliclock;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.service.dreams.DreamService;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.LinearLayout;
+
 
 /* Dali Clock - a melting digital clock for Palm WebOS.
  * Copyright (c) 1991-2010 Jamie Zawinski <jwz@jwz.org>
@@ -23,20 +25,15 @@ import android.widget.LinearLayout;
  *
  * Ported to Android 2015 by Robin Müller-Cajar <robinmc@mailbox.org>
  */
-public class DaliDreamService extends DreamService {
+public class DaliClockActivity extends Activity {
 
     DaliClock clock;
     Display display;
 
-
-    public DaliDreamService() {
-    }
-
     @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        setInteractive(true);
-        setFullscreen(true);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.dream_layout);
 
         display = getWindowManager().getDefaultDisplay();
@@ -66,49 +63,21 @@ public class DaliDreamService extends DreamService {
         clock.show();
     }
 
-//    public void onDreamingStarted() {
-//        super.onDreamingStarted();
-//
-//        clock.show();
-//    }
-
-    public void onDreamingStopped() {
-        super.onDreamingStopped();
-
-        clock.hide();
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
 
-        clock.cleanup();
-    }
-
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        super.dispatchTouchEvent(event);
-
-        if(event.getAction() != MotionEvent.ACTION_DOWN) return true;
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor settingsEditor = settings.edit();
-
-        // The clock will reset show_date itself after 2 seconds.
-        // thus we need to check if the clock is still showing the date from last time.
-        if(clock.showingDate()) {
-            settingsEditor.putBoolean("show_date", false);
-        } else {
-            settingsEditor.putBoolean("show_date", true);
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            return false;
         }
-
-        Point size = new Point();
-        display.getRealSize(size); //using RealSize as we are in fullscreen
-
-        settingsEditor.putInt("width", (int) (0.95 * size.x));
-        settingsEditor.putInt("height", (int) (0.95 * size.y));
-
-        settingsEditor.apply();
-        clock.changeSettings(settings);
-        return true;
-    }
+    };
 }
-

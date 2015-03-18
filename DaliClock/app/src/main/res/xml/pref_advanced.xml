@@ -3,7 +3,7 @@
     <EditTextPreference
         android:key="target_frame_rate"
         android:title="@string/pref_frame_rate_title"
-        android:defaultValue="10"
+        android:defaultValue="30"
         android:numeric="integer"
         android:inputType="number"/>
 
@@ -32,6 +32,6 @@
     <CheckBoxPreference
         android:key="aaliasing"
         android:title="@string/pref_aaliasing_title"
-        android:defaultValue="false" />
+        android:defaultValue="true" />
 
 </PreferenceScreen>

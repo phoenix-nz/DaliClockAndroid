@@ -13,30 +13,36 @@
         android:theme="@style/AppTheme" >
         <service
             android:name=".DaliDreamService"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
             android:label="@string/service_label"
-            android:configChanges="orientation|screenSize"
             android:permission="android.permission.BIND_DREAM_SERVICE" >
             <intent-filter>
                 <action android:name="android.service.dreams.DreamService" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <!-- Point to additional information for this dream (optional) -->
             <meta-data
                 android:name="android.service.dream"
                 android:resource="@xml/dream_data" />
-
-
         </service>
 
         <activity
-            android:theme="@style/AppTheme"
             android:name=".DaliClockSettingsActivity"
-            android:label="@string/activity_preferences" />
+            android:label="@string/activity_preferences"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DaliClockActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_dali_clock"
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
-
-
-
 
 </manifest>

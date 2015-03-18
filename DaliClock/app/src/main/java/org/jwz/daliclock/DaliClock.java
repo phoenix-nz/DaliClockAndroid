@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -69,11 +70,9 @@ public class DaliClock {
     private int last_secs = -1;
     private int current_msecs;
 
-    public DaliClock(Context context) {
-        this.context = context;
-    }
+    public DaliClock(Context context, SurfaceView canvas_element, LinearLayout background_element, SharedPreferences settings) {
 
-    public void setup(SurfaceView canvas_element, LinearLayout background_element, SharedPreferences settings) {
+        this.context = context;
         this.surfaceView = canvas_element;
         this.clockbg = background_element;
 //        this.fonts   = fonts;
@@ -87,6 +86,8 @@ public class DaliClock {
         this.clockbg.setBackgroundColor(this.bg_fillStyle);
 
         this.canvasHolder = this.surfaceView.getHolder();
+        this.surfaceView.setZOrderOnTop(true);
+        this.canvasHolder.setFormat(PixelFormat.TRANSLUCENT);
 
 
         this.changeSettings(settings);
@@ -170,6 +171,10 @@ public class DaliClock {
      */
     public void cleanup() {
         this.hide();
+    }
+
+    public boolean showingDate() {
+        return this.show_date_p;
     }
 
     private void clock_timer() {
@@ -288,7 +293,8 @@ public class DaliClock {
             this.twelve_hour_p = settings.getBoolean("time_12h", false);
         }
         // store for how long we will show the date
-        if(this.show_date_p) this.date_length = 2000;
+        if(this.show_date_p) this.date_length = 1000;
+        else this.date_length = 0;
 
         if (reset_p) this.clock_reset();
     }
@@ -347,7 +353,7 @@ public class DaliClock {
 
         //this.surfaceView.offsetLeftAndRight(x);
         //this.surfaceView.offsetTopAndBottom(y);
-        //this.surfaceView.setZOrderOnTop(true);
+
         //this.canvasHolder.setFixedSize(width,height);
     }
 
@@ -695,8 +701,8 @@ public class DaliClock {
         else
             y = (this.height - this.canvas_size[1])>>1;
 
-//        canvas.drawARGB(255,0,0,0);
-        canvas.drawColor(this.bg_fillStyle);
+        canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
+
         Paint paint = new Paint();
         paint.setColor(this.ctx_fillStyle);
         for (int i = 0; i < this.displayed_digits; i++) {

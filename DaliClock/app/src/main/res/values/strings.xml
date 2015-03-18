@@ -3,4 +3,6 @@
     <string name="service_name">DaliClockService</string>
     <string name="service_label">Dali Clock</string>
     <string name="activity_preferences">Dali Clock Settings</string>
+
+    <string name="title_activity_dali_clock">Dali Clock</string>
 </resources>
