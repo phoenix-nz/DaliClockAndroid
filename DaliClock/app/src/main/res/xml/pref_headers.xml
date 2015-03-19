@@ -6,9 +6,9 @@
         android:fragment="org.jwz.daliclock.DaliClockSettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
 
-    <header
-        android:fragment="org.jwz.daliclock.DaliClockSettingsActivity$AdvancedPreferenceFragment"
-        android:title="@string/pref_header_advanced" />
+    <!--<header-->
+        <!--android:fragment="org.jwz.daliclock.DaliClockSettingsActivity$AdvancedPreferenceFragment"-->
+        <!--android:title="@string/pref_header_advanced" />-->
 
 
 </preference-headers>

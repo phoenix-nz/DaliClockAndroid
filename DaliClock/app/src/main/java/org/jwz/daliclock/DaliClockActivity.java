@@ -61,6 +61,8 @@ public class DaliClockActivity extends Activity {
             clock = new DaliClock(this, canvas, bdiv, settings);
         }
         clock.show();
+
+        bdiv.setOnTouchListener( this.mTouchListener );
     }
 
     @Override
@@ -74,7 +76,7 @@ public class DaliClockActivity extends Activity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             return false;

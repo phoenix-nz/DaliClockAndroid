@@ -40,6 +40,10 @@ public class DaliClockSettingsActivity extends PreferenceActivity {
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return GeneralPreferenceFragment.class.getName().equals(fragmentName);
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -68,10 +72,11 @@ public class DaliClockSettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_general);
 
         // Add 'notifications' preferences, and a corresponding header.
-        fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_advanced);
-        getPreferenceScreen().addPreference(fakeHeader);
+//      fakeHeader = new PreferenceCategory(this);
+//      fakeHeader.setTitle(R.string.pref_header_advanced);
+//      getPreferenceScreen().addPreference(fakeHeader);
         addPreferencesFromResource(R.xml.pref_advanced);
+
 
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
@@ -195,40 +200,48 @@ public class DaliClockSettingsActivity extends PreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            android.os.Debug.waitForDebugger();
             addPreferencesFromResource(R.xml.pref_general);
 
+            addPreferencesFromResource(R.xml.pref_advanced);
+
+
+            PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_general, false);
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("date_display"));
             bindPreferenceSummaryToValue(findPreference("time_display"));
-            bindPreferenceSummaryToValue(findPreference("time_24h"));
-        }
-    }
+            bindPreferenceSummaryToValue(findPreference("time_12h"));
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class AdvancedPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            android.os.Debug.waitForDebugger();
-            addPreferencesFromResource(R.xml.pref_advanced);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
             bindPreferenceSummaryToValue(findPreference("target_frame_rate"));
             bindPreferenceSummaryToValue(findPreference("color_cycle"));
             bindPreferenceSummaryToValue(findPreference("color_cycle_speed"));
-            bindPreferenceSummaryToValue(findPreference("orientation"));
+            //bindPreferenceSummaryToValue(findPreference("orientation"));
             bindPreferenceSummaryToValue(findPreference("aaliasing"));
         }
     }
+
+//    /**
+//     * This fragment shows notification preferences only. It is used when the
+//     * activity is showing a two-pane settings UI.
+//     */
+//    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+//    public static class AdvancedPreferenceFragment extends PreferenceFragment {
+//        @Override
+//        public void onCreate(Bundle savedInstanceState) {
+//            super.onCreate(savedInstanceState);
+//            addPreferencesFromResource(R.xml.pref_advanced);
+//
+//            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+//            // to their values. When their values change, their summaries are
+//            // updated to reflect the new value, per the Android Design
+//            // guidelines.
+//            bindPreferenceSummaryToValue(findPreference("target_frame_rate"));
+//            bindPreferenceSummaryToValue(findPreference("color_cycle"));
+//            bindPreferenceSummaryToValue(findPreference("color_cycle_speed"));
+//            bindPreferenceSummaryToValue(findPreference("orientation"));
+//            bindPreferenceSummaryToValue(findPreference("aaliasing"));
+//        }
+//    }
 }

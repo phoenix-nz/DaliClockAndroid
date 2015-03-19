@@ -3,7 +3,7 @@
     <ListPreference
         android:key="date_display"
         android:title="@string/pref_date_display_title"
-        android:defaultValue="1"
+        android:defaultValue="DDMMYY"
         android:entries="@array/pref_date_display_titles"
         android:entryValues="@array/pref_date_display_values"
         android:negativeButtonText="@null"
@@ -12,7 +12,7 @@
     <ListPreference
         android:key="time_display"
         android:title="@string/pref_time_display_title"
-        android:defaultValue="0"
+        android:defaultValue="HHMMSS"
         android:entries="@array/pref_time_display_titles"
         android:entryValues="@array/pref_time_display_values"
         android:negativeButtonText="@null"
