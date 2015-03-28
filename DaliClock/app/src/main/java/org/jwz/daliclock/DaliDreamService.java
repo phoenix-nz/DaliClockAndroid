@@ -35,7 +35,7 @@ public class DaliDreamService extends DreamService {
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        setInteractive(true);
+        setInteractive(false);
         setFullscreen(true);
         setContentView(R.layout.dream_layout);
 
@@ -84,31 +84,31 @@ public class DaliDreamService extends DreamService {
         clock.cleanup();
     }
 
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        super.dispatchTouchEvent(event);
-
-        if(event.getAction() != MotionEvent.ACTION_DOWN) return true;
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor settingsEditor = settings.edit();
-
-        // The clock will reset show_date itself after 2 seconds.
-        // thus we need to check if the clock is still showing the date from last time.
-        if(clock.showingDate()) {
-            settingsEditor.putBoolean("show_date", false);
-        } else {
-            settingsEditor.putBoolean("show_date", true);
-        }
-
-        Point size = new Point();
-        display.getRealSize(size); //using RealSize as we are in fullscreen
-
-        settingsEditor.putInt("width", (int) (0.95 * size.x));
-        settingsEditor.putInt("height", (int) (0.95 * size.y));
-
-        settingsEditor.apply();
-        clock.changeSettings(settings);
-        return true;
-    }
+//    public boolean dispatchTouchEvent(MotionEvent event) {
+//        super.dispatchTouchEvent(event);
+//
+//        if(event.getAction() != MotionEvent.ACTION_DOWN) return true;
+//
+//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor settingsEditor = settings.edit();
+//
+//        // The clock will reset show_date itself after 2 seconds.
+//        // thus we need to check if the clock is still showing the date from last time.
+//        if(clock.showingDate()) {
+//            settingsEditor.putBoolean("show_date", false);
+//        } else {
+//            settingsEditor.putBoolean("show_date", true);
+//        }
+//
+//        Point size = new Point();
+//        display.getRealSize(size); //using RealSize as we are in fullscreen
+//
+//        settingsEditor.putInt("width", (int) (0.95 * size.x));
+//        settingsEditor.putInt("height", (int) (0.95 * size.y));
+//
+//        settingsEditor.apply();
+//        clock.changeSettings(settings);
+//        return true;
+//    }
 }
 

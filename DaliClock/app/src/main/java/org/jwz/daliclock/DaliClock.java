@@ -177,6 +177,10 @@ public class DaliClock {
         return this.show_date_p;
     }
 
+    public String getTimeDisplay() {
+        return this.time_mode;
+    }
+
     private void clock_timer() {
 
         Canvas canvas = canvasHolder.lockCanvas();

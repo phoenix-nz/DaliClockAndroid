@@ -3,10 +3,13 @@ package org.jwz.daliclock;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.SparseArray;
 import android.view.Display;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,8 +30,12 @@ import android.widget.LinearLayout;
  */
 public class DaliClockActivity extends Activity {
 
-    DaliClock clock;
-    Display display;
+    private DaliClock clock;
+    private Display display;
+
+    // detect zoom in/out
+    private ScaleGestureDetector scaleGestureDetector;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,7 @@ public class DaliClockActivity extends Activity {
         display = getWindowManager().getDefaultDisplay();
         LinearLayout bdiv = (LinearLayout) findViewById(R.id.clockbg);
         SurfaceView canvas = (SurfaceView) findViewById(R.id.canvas);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        this.settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor settingsEditor = settings.edit();
 
         settingsEditor.putBoolean("show_date", false);
@@ -54,6 +61,11 @@ public class DaliClockActivity extends Activity {
 
         settingsEditor.apply();
 
+
+        bdiv.setOnTouchListener( this.mTouchListener );
+        bdiv.setOnClickListener( this.mClickListener );
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
         if (clock != null) {
             clock.hide();
             clock.changeSettings(settings);
@@ -62,7 +74,6 @@ public class DaliClockActivity extends Activity {
         }
         clock.show();
 
-        bdiv.setOnTouchListener( this.mTouchListener );
     }
 
     @Override
@@ -71,15 +82,77 @@ public class DaliClockActivity extends Activity {
     }
 
 
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
     View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
+        public boolean onTouch(View view, MotionEvent event) {
+
+            // the user seems to want to zoom, pass the event on to our scale detector
+            if( event.getPointerCount() == 2 ) {
+                scaleGestureDetector.onTouchEvent(event);
+                view.invalidate();
+                return true;
+            }
+
             return false;
+
         }
     };
+
+    View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            SharedPreferences.Editor settingsEditor = settings.edit();
+
+            // The clock will reset show_date itself after 2 seconds.
+            // thus we need to check if the clock is still showing the date from last time.
+            if(clock.showingDate()) {
+                settingsEditor.putBoolean("show_date", false);
+            } else {
+                settingsEditor.putBoolean("show_date", true);
+            }
+
+            settingsEditor.apply();
+            clock.changeSettings(settings);
+        }
+    };
+
+    private class ScaleListener extends
+            ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            float scaleFactor = detector.getScaleFactor();
+            String currTimeDisplay = clock.getTimeDisplay();
+
+            // always just move one step.
+            switch(currTimeDisplay) {
+                case "SS": {
+                    if(scaleFactor > 1) currTimeDisplay = "HHMM";
+                    break;
+                }
+                case "HHMM": {
+                    if (scaleFactor > 1) currTimeDisplay = "HHMMSS";
+                    else                 currTimeDisplay = "SS";
+                    break;
+                }
+                case "HHMMSS":
+                default: {
+                    if(scaleFactor < 1) currTimeDisplay = "HHMM";
+                    break;
+                }
+            }
+
+
+            // check if the settings changed
+            String oldTimeDisplay = settings.getString("time_display", currTimeDisplay);
+            if(!settings.contains("time_display") || !oldTimeDisplay.equals(currTimeDisplay)){
+                SharedPreferences.Editor settingsEditor = settings.edit();
+                settingsEditor.putString("time_display", currTimeDisplay);
+                settingsEditor.apply();
+
+                clock.changeSettings(settings);
+            }
+
+            return true;
+        }
+    }
 }
